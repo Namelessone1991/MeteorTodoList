@@ -1,4 +1,4 @@
-import {Meteor} from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
@@ -33,13 +33,13 @@ Template.body.helpers({
             //the document
         }
 
-          //otherwise return all of the tasks
+        //otherwise return all of the tasks
         return Tasks.find({}, { sort: { createdAt: -1 } });
     },
 
     incompleteCount() {
-    
-     return Tasks.find({checked: {$ne: true}}).count();
+
+        return Tasks.find({ checked: { $ne: true } }).count();
 
     },
 
@@ -58,14 +58,7 @@ Template.body.events({
         const text = target.text.value;
 
         //inserts a task into the Mongo collection 
-        Tasks.insert({
-
-            text,
-            createdAt: new Date(),
-            owner: Meteor.userId(),
-            username: Meteor.user().username,
-
-        });
+        Meteor.call('tasks.insert', text);
 
 
         //clear form
